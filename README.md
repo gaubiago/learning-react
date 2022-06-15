@@ -81,7 +81,7 @@
 
   - The value of `this` is determined by how a function is called (behaves differently from other languages)
     - If we call a function as a method in an object, `this` will always return a reference to that object
-    - If we call a function as a stand alone object or outside of an object, this will return the `window` object in browsers (if you get `undefined`, it means that the strict mode is enabled)
+    - If we call a function as a stand-alone object or outside of an object, this will return the `window` object in browsers (if you get `undefined`, it means that the strict mode is enabled)
 
 - Binding `this`
 
@@ -291,10 +291,70 @@
   - `{ variable }`: used to render `variable` dynamically&mdash;`variable` can be any valid JS expression
 
 - Setting attributes
+
   - Instead of using `class`, which is a reserved keyword in JavaScript, use `className` as an attribute for specifying a class for an element
   - You can use the `styles` attribute in an element:
     - Passing in an object with CSS-ish attributes: `style={ object }`
-    - In-line: `style={{ fontSize: 30 }}
+    - In-line: `style={{ fontSize: 30 }}`
+
+- Rendering classes dynamically
+
+  - `^ + Shift + R`: Refactor... (selected lines of code), click on 'Extract to method in class '<class_name>`, and change the name of your new method
+    - This helps **render** to become cleaner and easy to understand
+
+- Rendering lists
+
+  - Whenever you are using `map`, mapping a list item to a JSX element, you need use the key attribute
+    ```js
+    // ...
+    state = {
+      count: 0,
+      tags: ["tag1", "tag2", "tag3"],
+    };
+    // ...
+    <ul>
+      {this.state.tags.map((tag) => (
+        <li key={tag}>{tag}</li>
+      ))}
+    </ul>;
+    ```
+
+- Conditional Rendering
+
+  - The logical `&&` works as an `if` statement (in JavaScript, you can apply `&&` between non-boolean values)
+    ```js
+    <div> { this.state.tags.length === 0 && "Hello world!"; } </div>
+    ```
+    - truthy vs falsy
+  - Or you can create a method (within a React class) that uses JavaScript for doing `if else` statements and returns HTML elements. This method is can then be used within the elements being returned in the `render` method.
+
+- Handling Events
+
+  - You pass the function as an expression to the event&mdash; you do not call the function (no parenthesis)
+
+  ```js
+  handleIncrement() {
+    console.log("Increment Clicked");
+  // ...
+  // you pass the function, not call the function (no parenthesis)
+  <button
+    onClick={this.handleIncrement}
+    className="btn btn-secondary btn-sm"
+  >
+    Increment
+  </button>
+  }
+  ```
+
+- Binding event handlers
+  - In the function being passed to an event handler, you don't have access to `this`
+    - Because `handleIncrement` is a stand-alone function, not an object method (if the strict mode is enable, this returns undefined; otherwise, the `window` object)
+    - Solution: arrow function
+      ```js
+      handleIncrement = () => {
+        console.log("Increment Clicked", this);
+      };
+      ```
 
 ```sh
 
