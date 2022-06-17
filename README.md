@@ -330,7 +330,7 @@
 
 - Handling Events
 
-  - You pass the function as an expression to the event&mdash; you do not call the function (no parenthesis)
+  - You pass the function reference as an expression to the event&mdash; you do not call the function (no parenthesis)
 
   ```js
   handleIncrement() {
@@ -347,6 +347,7 @@
   ```
 
 - Binding event handlers
+
   - In the function being passed to an event handler, you don't have access to `this`
     - Because `handleIncrement` is a stand-alone function, not an object method (if the strict mode is enable, this returns undefined; otherwise, the `window` object)
     - Solution: arrow function
@@ -355,6 +356,28 @@
         console.log("Increment Clicked", this);
       };
       ```
+
+- Updating the state
+
+  - ```js
+    //...
+    state = {
+      count: 0,
+    };
+    //...
+    this.setState({ count: this.state.count + 1 });
+    ```
+
+- Passing event arguments
+
+  - Pass arrow function to `onClick`:
+    ```js
+    onClick={() => this.handleIncrement(product)}
+    ```
+
+- Setting up a new project
+  - Install `bootstrap` and `font-awesome`
+  - Inspect browser tool shortcut: `Shift + Cmd + C`
 
 ```sh
 
