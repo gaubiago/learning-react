@@ -326,7 +326,7 @@
     <div> { this.state.tags.length === 0 && "Hello world!"; } </div>
     ```
     - truthy vs falsy
-  - Or you can create a method (within a React class) that uses JavaScript for doing `if else` statements and returns HTML elements. This method is can then be used within the elements being returned in the `render` method.
+  - Or you can create a method (within a React class) that uses JavaScript for doing `if else` statements and returns HTML elements. This method can then be used within the elements being returned in the `render` method.
 
 - Handling Events
 
@@ -376,8 +376,24 @@
     ```
 
 - Setting up a new project
+
   - Install `bootstrap` and `font-awesome`
   - Inspect browser tool shortcut: `Shift + Cmd + C`
+  - `_id`: prefixed with `_` because that's the default name of the ID column in MongoDB
+
+- Exercise comments
+  - In JSX, if there is nothing between the opening and closing tag you should use the self-closing syntax (`<TagName \>`)
+  - Shortcut for making a table:
+    - `table.table>thead>tr>th*4` (create table, with `className=table`, a table head, one table row, and 4 table header cells)
+    - This technique is called Zen Coding
+    - `key` prop must be set in the outer most element
+    - In modern JavaScript, if key and value are the same when using `this.setState()`, you can omit the value:
+      ```js
+      // Before
+      this.setState({ movies: movies });
+      // After
+      this.setState({ movies });
+      ```
 
 ```sh
 
