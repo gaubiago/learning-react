@@ -395,6 +395,50 @@
       this.setState({ movies });
       ```
 
+## Composing Components
+
+- Passing data to components
+
+  - Every React component has a property called `props`, which is a plain JavaScript object that includes all the attributes that we set when using the component in another component
+    - the `key` attribute is not part of `props` because it's a special attribute for uniquely identifying elements
+  - `this.props.<attribute>`: how to access a certain attribute being passed in a parent elements through props
+    ```js
+    // counters.jsx (parent component)
+    {
+      this.state.counters.map((counter) => (
+        <Counter key={counter.id} value={counter.value} selected={true} />
+      ));
+    }
+    //
+    // counter.jsx (child component itself)
+    state = {
+      count: this.props.value,
+    };
+    ```
+  - To change all occurrences of a given word, ut the cursor on that word, press `F2`, type the new word and hit `Return`
+  - When passing props, `selected={true}` is equivalent to `selected`
+
+- Passing children
+
+  - `this.props.children`: when you want to pass complex elements to a child component such as a dialogue box, you use the `children` prop attribute
+    - `children` receives whatever is passed between the opening and closing tags of a component
+
+- Debugging React apps
+
+  - Install React Developer Tools and and use it in the browser's Inspect tool
+  - `$r`: can print in the console any component of our page
+    - To use it, first select what component you want to analyze in the Components tab, then type `$r` in the Console tab
+  - `$0` is a similar variable to `$r` that is useful to debugging an element form the Elements tab
+
+- Props vs State
+
+  - Props: any data that you give to a component (read onl)
+  - State: any data local or private to a component
+
+- Raising and handling events
+  - Rule of thumb: the component that owns a piece of the state should be the one modifying it
+  - Components can raise events (e.g.: child to parent, cm)
+
 ```sh
 
 ```
