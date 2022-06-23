@@ -436,8 +436,75 @@
   - State: any data local or private to a component
 
 - Raising and handling events
+
   - Rule of thumb: the component that owns a piece of the state should be the one modifying it
   - Components can raise events (e.g.: child to parent, cm)
+
+- Single source of truth
+
+  - The local state of a component is disconnected from the corresponding prop attributes that gets updated
+
+- Removing the local state
+
+  - Control component: it does not have its own local state; it receives all date via props and raises events whenever data needs to be changed()
+  - Use `setState()` to modify the state of a component (never modify the state directly)
+
+- Components in sync
+
+  - You need to lift the state up in order to the root component in order to share the state of attributes across all components
+
+- Stateless Functional Component
+
+  - When you don't have states in a component, you may want to define a component using a function instead of a class
+  - `sfc`: shortcut for creating a stateless functional component
+  - In functional components, you need to add `props` as a parameter
+
+- Destructuring arguments
+
+  - Instead of using the object `props` as an argument in a stateless functional component, you can use object destructuring in the argument:
+    ```js
+    // Before
+    const NavBar = (props) => {};
+    // After
+    const NavBar = ({ totalCounters }) => {};
+    ```
+
+- Lifecycle hooks
+
+  - Components go through a few phases during their lifecyle
+    - Mount: when a component is created and inserted into the DOM
+      - Lifecycle hooks: a few special methods that we can add to the components (React automatically call these methods)
+      - 3 lifecycle hooks: `constructor()`, `render()`, and `componentDidMount()`
+    - Update: happens when the state or the props of a component get changed
+      - 2 lifecycle hooks: `render()`, and `componentDidUpdate()`
+    - Unmount: happens when a component is removed from the DOM
+      - 1 lifecycle hook: `componentWillUnmount()`
+  - There are more lifecycle hooks, but the ones listed above are used most of the time
+
+- Mounting phase
+
+  - `constructor()`: can be used to set the state directly
+    - `this.setState()` can be used only when a component is already rendered and placed in the DOM
+    - If `props` is to used inside the constructor, `props` need to be passed as an argument to the constructor (don't forget to pass `props` to the parent class via `super()`)
+  - When the component is mounted, it is the right time to use AJAX calls and get the data from the server
+  - `render()`: when one component is rendered, all child components are rendered recursively
+  - Lifecycle hooks are only used in class components (never in stateless functional component)
+
+- Update phase
+
+  - `render()`: called whenever the state or props of a component changes
+    - Rerender the child components related to the update(happens in the virtual DOM)
+    - We should not update the state directly (to preserve two different object references in memory):
+      - Old virtual DOM
+      - New Virtual DOM
+    - React figures out what has changed and update the real DOM accordingly
+  - `componentDidUpdate()`: called after a component is updated
+    - We can compare old state with new state, or old props with new props, and make an AJAX to get new data from the server if there is a change (if there is no change, no AJAX request)
+
+- Unmounting Phase
+  - `componentWillUnmount()`: called just before a component is removed from the DOM
+    - Gives an opportunity to do any kind of cleanup
+      - e.g.: clean up timers or listeners before component is removed from the DOM to not end up with memory leaks
 
 ```sh
 
