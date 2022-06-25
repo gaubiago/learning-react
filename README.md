@@ -505,7 +505,3 @@
   - `componentWillUnmount()`: called just before a component is removed from the DOM
     - Gives an opportunity to do any kind of cleanup
       - e.g.: clean up timers or listeners before component is removed from the DOM to not end up with memory leaks
-
-```sh
-
-```
