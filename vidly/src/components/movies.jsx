@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import { getMovies } from "../services/fakeMovieService";
-import Heart from "./heart";
+import Heart from "./common/heart";
+import Pagination from "./common/pagination";
+import { paginate } from "../utils/paginate";
 
 class Movies extends Component {
   state = {
@@ -8,6 +10,8 @@ class Movies extends Component {
       return { ...movie, fullHeart: false };
     }),
     headerKeys: ["Title", "Genre", "Stock", "Rate", "", ""],
+    currentPage: 1,
+    pageSize: 4,
   };
 
   handleDelete = (movie) =>
@@ -23,6 +27,10 @@ class Movies extends Component {
     this.setState({ movies });
   };
 
+  handlePageClick = (page) => {
+    this.setState({ currentPage: page });
+  };
+
   printSizeMsg = () =>
     this.state.movies.length === 0
       ? "There are no movies in the database."
@@ -30,9 +38,11 @@ class Movies extends Component {
 
   render() {
     const { length: count } = this.state.movies;
+    const { pageSize, currentPage, movies: allMovies } = this.state;
 
     if (count === 0) return <p>There are no movies i the database.</p>;
 
+    const movies = paginate(allMovies, currentPage, pageSize);
     return (
       <React.Fragment>
         <p>{this.printSizeMsg()}</p>
@@ -48,7 +58,7 @@ class Movies extends Component {
               </tr>
             </thead>
             <tbody>
-              {this.state.movies.map((movie, idx) => {
+              {movies.map((movie, idx) => {
                 return (
                   <tr key={idx}>
                     <td>{movie.title}</td>
@@ -63,7 +73,7 @@ class Movies extends Component {
                     </td>
                     <td>
                       <button
-                        onClick={() => this.handleDelete(movie)}
+                        onClick={this.handleDelete}
                         className="btn btn-danger btn-sm"
                       >
                         Delete
@@ -75,6 +85,12 @@ class Movies extends Component {
             </tbody>
           </table>
         )}
+        <Pagination
+          itemsCount={count}
+          pageSize={pageSize}
+          currentPage={currentPage}
+          onPageClick={this.handlePageClick}
+        />
       </React.Fragment>
     );
   }
