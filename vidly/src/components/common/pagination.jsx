@@ -11,7 +11,8 @@ const Pagination = (props) => {
 
   let activateCurrentPage = (page) => {
     let classes = "page-item";
-    if (page === currentPage) return (classes += " active");
+    if (page === currentPage) classes += " active";
+    return classes;
   };
 
   return (

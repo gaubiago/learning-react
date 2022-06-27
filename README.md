@@ -513,7 +513,22 @@
   - `Cmd + P` and type `@<class_member>`: shortcut to jump to `<class_member>` in your code
 
 - Pagination - type checking
+
   - Catch bugs related to type checking
     ```sh
     npm i prop-types
+    ```
+
+- Filtering - component interface
+
+  - The best place to initialize some states in a real-world application is in the `componentDidMount()` life-cycle hook
+    - `componentsDidMount()` is called when an instance of this component is rendered in the DOM
+    - The reason why is it takes some time to get the data from the server
+
+- Filtering - default properties
+  - ```js
+    <ComponentName>.defaultProps = {
+      <props_1>: "<default_value_1>",
+      <props_2>: "<default_value_2>",
+    }
     ```
