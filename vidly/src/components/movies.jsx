@@ -1,19 +1,20 @@
 import React, { Component } from "react";
 import { getMovies } from "../services/fakeMovieService";
 import { getGenres } from "../services/fakeGenreService";
-import Heart from "./common/heart";
 import Pagination from "./common/pagination";
 import { paginate } from "../utils/paginate";
-import CatList from "./common/catList";
+import ListGroup from "./common/listGroup";
+import MoviesTable from "./moviesTable";
+import _ from "lodash";
 
 class Movies extends Component {
   state = {
     movies: [],
     genres: [],
-    headerKeys: ["Title", "Genre", "Stock", "Rate", "", ""],
     currentPage: 1,
     pageSize: 4,
     currentGenre: { _id: 0, name: "All Genres" },
+    sortColumn: { path: "title", order: "asc" },
   };
 
   componentDidMount() {
@@ -28,7 +29,7 @@ class Movies extends Component {
       movies: this.state.movies.filter((_movie) => _movie._id !== movie._id),
     });
 
-  handleHeartClick = (movie) => {
+  handleHeart = (movie) => {
     const movies = [...this.state.movies];
     const index = movies.indexOf(movie);
     movies[index] = { ...movie };
@@ -44,6 +45,12 @@ class Movies extends Component {
     this.setState({ currentPage: page });
   };
 
+  handleSort = (sortColumn) => {
+    this.setState({
+      sortColumn,
+    });
+  };
+
   printSizeMsg = (count) =>
     this.state.movies.length === 0
       ? "There are no movies in the database."
@@ -53,13 +60,13 @@ class Movies extends Component {
     this.setState({ genreCount });
   };
 
-  render() {
+  getPagedData = () => {
     const {
       pageSize,
       currentPage,
       movies: allMovies,
-      genres: allGenres,
       currentGenre,
+      sortColumn,
     } = this.state;
 
     const filtered =
@@ -67,65 +74,58 @@ class Movies extends Component {
         ? allMovies.filter((movie) => movie.genre.name === currentGenre.name)
         : allMovies;
 
-    const movies = paginate(filtered, currentPage, pageSize);
+    const sorted = _.orderBy(filtered, [sortColumn.path], [sortColumn.order]);
+
+    const movies = paginate(sorted, currentPage, pageSize);
+
+    return { totalCount: filtered.length, data: movies };
+  };
+
+  render() {
+    const headerKeys = ["Title", "Genre", "Stock", "Rate", "", ""];
+
+    const {
+      pageSize,
+      currentPage,
+      genres: allGenres,
+      currentGenre,
+      sortColumn,
+    } = this.state;
+
+    if (this.state.movies.length === 0) return this.printSizeMsg(0);
+
+    const { totalCount, data: movies } = this.getPagedData();
+
     return (
-      <div className="row">
-        <div className="col-3">
-          <CatList
-            genres={allGenres}
-            onGenreChange={this.handleGenreChange}
-            currentGenre={currentGenre}
-          />
+      <React.Fragment>
+        <div className="row">
+          <div className="col-3">
+            <ListGroup
+              genres={allGenres}
+              onGenreChange={this.handleGenreChange}
+              currentGenre={currentGenre}
+            />
+          </div>
+          <div className="col">
+            <p>{this.printSizeMsg(totalCount)}</p>
+            <MoviesTable
+              movies={movies}
+              sortColumn={sortColumn}
+              onHeart={this.handleHeart}
+              onDelete={this.handleDelete}
+              headerKeys={headerKeys}
+              onSort={this.handleSort}
+            />
+            <Pagination
+              itemsCount={totalCount}
+              pageSize={pageSize}
+              currentPage={currentPage}
+              onPageClick={this.handlePageClick}
+            />
+          </div>
         </div>
-        <div className="col">
-          <p>{this.printSizeMsg(filtered.length)}</p>
-          {this.state.movies.length !== 0 && (
-            <table className="table" style={{ marginRight: 150 }}>
-              <thead>
-                <tr>
-                  {this.state.headerKeys.map((key, idx) => (
-                    <th scope="col" style={{ marginRight: 150 }} key={idx}>
-                      {key}
-                    </th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                {movies.map((movie, idx) => {
-                  return (
-                    <tr key={idx}>
-                      <td>{movie.title}</td>
-                      <td>{movie.genre.name}</td>
-                      <td>{movie.numberInStock}</td>
-                      <td>{movie.dailyRentalRate}</td>
-                      <td>
-                        <Heart
-                          onHeartClick={this.handleHeartClick}
-                          movie={movie}
-                        />
-                      </td>
-                      <td>
-                        <button
-                          onClick={this.handleDelete}
-                          className="btn btn-danger btn-sm"
-                        >
-                          Delete
-                        </button>
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          )}
-          <Pagination
-            itemsCount={filtered.length}
-            pageSize={pageSize}
-            currentPage={currentPage}
-            onPageClick={this.handlePageClick}
-          />
-        </div>
-      </div>
+        <div className="row"></div>
+      </React.Fragment>
     );
   }
 }

@@ -1,9 +1,12 @@
 import React from "react";
 
-const CatList = (props) => {
-  const { genres, textProperty, valueProperty, onGenreChange, currentGenre } =
-    props;
-
+const ListGroup = ({
+  genres,
+  textProperty,
+  valueProperty,
+  onGenreChange,
+  currentGenre,
+}) => {
   const activateCurrentGenre = (genreName) => {
     let classes = "list-group-item";
     if (genreName === currentGenre.name) classes += " active";
@@ -16,7 +19,6 @@ const CatList = (props) => {
         <li
           key={genre[valueProperty]}
           className={activateCurrentGenre(genre.name)}
-          // className="list-group-item p-3 pe-5"
           onClick={() => onGenreChange(genre)}
         >
           {/* {console.log(classes)} */}
@@ -27,9 +29,9 @@ const CatList = (props) => {
   );
 };
 
-CatList.defaultProps = {
+ListGroup.defaultProps = {
   textProperty: "name",
   valueProperty: "_id",
 };
 
-export default CatList;
+export default ListGroup;

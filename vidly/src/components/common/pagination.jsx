@@ -2,9 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import _ from "lodash";
 
-const Pagination = (props) => {
-  const { itemsCount, pageSize, currentPage, onPageClick } = props;
-
+const Pagination = ({ itemsCount, pageSize, currentPage, onPageClick }) => {
   const pagesCount = Math.ceil(itemsCount / pageSize);
   if (pagesCount === 1) return null;
   const pages = _.range(1, pagesCount + 1);
@@ -17,10 +15,7 @@ const Pagination = (props) => {
 
   return (
     <nav aria-label="Page navigation example">
-      <ul
-        className="pagination position-absolute top-0"
-        style={{ marginTop: 330 }}
-      >
+      <ul className="pagination">
         {pages.map((page) => {
           return (
             <li className={activateCurrentPage(page)} key={page}>

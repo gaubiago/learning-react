@@ -526,9 +526,30 @@
     - The reason why is it takes some time to get the data from the server
 
 - Filtering - default properties
+
   - ```js
     <ComponentName>.defaultProps = {
       <props_1>: "<default_value_1>",
       <props_2>: "<default_value_2>",
+    }
+    ```
+
+- Sorting - implementing sorting
+
+  - ```js
+    const sorted = _.orderBy(filtered, [sortColumn.path], [sortColumn.order]);
+    ```
+
+- Sorting - rendering cell content
+  - lodash:
+    ```js
+    {
+      data.map((item) => (
+        <tr>
+          {columns.map((column) => (
+            <td>{_.get(item, column.path)}</td>
+          ))}
+        </tr>
+      ));
     }
     ```
