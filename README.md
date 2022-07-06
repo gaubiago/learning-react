@@ -553,3 +553,76 @@
       ));
     }
     ```
+
+## Routing
+
+- Adding routing
+
+  - `npm i react-router-dom`
+
+- Switch
+
+  - `exact` attribute will render paths only if the path provided is exactly the same as the path defined:
+    ```js
+    <Route path="/" exact component={Home} />
+    ```
+  - `Switch` renders the first child that matches the location (we no longer need `exact`)
+    - Order your routes from the most specific to the most generic ones
+
+- Link
+
+  - Single Page Applications: instead of reloading the entire page with all its assets, we should only update what we have in the content area when a user navigates from one page to another
+    ```js
+    <Link to={`/products/${product.id}`}>{product.name}</Link>
+    ```
+
+- Route props
+
+  - `path`, `components`, and tree additional, implicit props: `history`, `location`, and `match`
+
+- Passing props
+
+  - ```js
+    <Route
+      path="/products"
+      render={(props) => <Products sortBy="newest" {...props} />}
+    />
+    ```
+
+- Route parameters
+
+  - Use `:` (colon) to define a parameter in the URL
+  - Parameters are stored in the property `params` within the prop `match`
+
+- Optional parameters
+
+  - Append `?` (question mark) to the parameter
+
+- Query string parameters
+
+  - Try to avoid optional parameters
+  - Example of query string: `?sortBy=newest&approved=true`
+  - The query string is stored in the property `search` within the prop `location`
+  - Use the `query-string` package to parse the query string:
+    ```js
+    const result = queryString.parse(location.search);
+    ```
+
+- Redirects
+
+  - Not Found
+    ```js
+    <Route path="/not-found" component={NotFound} />
+    <Route path="/" exact component={Home} />
+    <Redirect to="/not-found" />
+    ```
+  - From one URL to another
+    ```js
+    <Redirect from="/messages" to="/posts" />
+    ```
+
+- Programmatic Navigation
+  - `history.push()`: allows to go back with back button
+  - `history.replace()`: does not allow to go back
+    - Used in login pages to prevent users from going back to the login page once they are logged in
+  -
