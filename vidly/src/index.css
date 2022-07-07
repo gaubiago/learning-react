@@ -3,8 +3,22 @@ body {
   font-family: sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  padding: 20px 0 0 0;
-  
+  padding: 0 0 0 0;
+}
+
+.navbar {
+  margin-bottom: 30px;
+}
+
+div.navbar-nav {
+  display: flex;
+  flex-direction: row;
+  flex:content;
+}
+
+.navbar-nav .nav-link {
+  padding-right: 10px !important;
+  padding-left: 10px !important;
 }
 
 code {
