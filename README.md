@@ -625,4 +625,95 @@
   - `history.push()`: allows to go back with back button
   - `history.replace()`: does not allow to go back
     - Used in login pages to prevent users from going back to the login page once they are logged in
-  -
+
+## Forms
+
+- Building a Bootstrap from
+
+  - Adding a wrapping element to a selected code
+    - `Select code` + `Shift+Cmd+P` + `Search for "wrap with abbreviation"` + `Zen Coding`
+
+- Handling form submission
+
+  - By default, HTML forms make a full round-trip to the server. To prevent the page from reloading, use:
+    - ```js
+      handleSubmit = (e) => {
+        e.preventDefault();
+        // Call the server
+        console.log("Submitted");
+      };
+      ```
+    - ```html
+      <form onSubmit="{this.handleSubmit}"></form>
+      ```
+
+- Refs
+
+  - Accessing the real DOM with React:
+    - ```js
+      username = React.createRef();
+      ```
+    - ```js
+      <input
+        ref={this.username} // use "ref" in the element
+        id="username"
+        type="text"
+        className="form-control"
+      />
+      ```
+  - Implementing element focus:
+    - Through life-cycle hook:
+      ```js
+      componentDidMount() {
+        this.username.current.focus();
+      }
+      ```
+    - Using element attribute:
+      ```js
+      <input
+        autoFocus // use "autoFocus"
+        ref={this.username}
+        id="username"
+        type="text"
+        className="form-control"
+      />
+      ```
+
+- Controlled elements
+
+  - Adding a single source of truth:
+    - ```js
+      state = {
+        account: { username: "", password: "" },
+      };
+      ```
+    - ```js
+      handleChange = (e) => {
+        const account = { ...this.state.account };
+        account.username = e.currentTarget.value;
+        this.setState({ account });
+      };
+      ```
+    - ```js
+      <input
+        value={this.state.account.username} // sync with component state
+        onChange={this.handleChange} // handle text change in the field
+        ref={this.username}
+        id="username"
+        type="text"
+        className="form-control"
+      />
+      ```
+
+- Handling multiple inputs
+
+  - ```js
+    handleChange = ({ currentTarget: input }) => {
+      const account = { ...this.state.account };
+      account[input.name] = input.value; // use the "name" attribute in the elements for which you are handling the changes
+      this.setState({ account });
+    };
+    ```
+
+- Common errors
+  - `null` and `undefined` cannot be used as a value of a controlled element
