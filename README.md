@@ -716,4 +716,29 @@
     ```
 
 - Common errors
+
   - `null` and `undefined` cannot be used as a value of a controlled element
+
+- Joi
+
+  - `npm i joi-browser`
+  - `Joi` terminates the validation as soon as it finds an error. That's called abort early. To prevent Joi from aborting early, use:
+    - ```js
+      const result = Joi.validate(this.state.account, this.schema, {
+        abortEarly: false,
+      });
+      ```
+
+- Extracting helper rendering methods
+  - Use the spread operator with the `rest` parameter:
+    - ```js
+      const Input = ({ name, label, error, ...rest }) => {
+        return (
+          <div className="form-group mb-3">
+            <label htmlFor={name}>{label}</label>
+            <input {...rest} name={name} id={name} className="form-control" />
+            {error && <div className="alert alert-danger">{error}</div>}
+          </div>
+        );
+      };
+      ```
