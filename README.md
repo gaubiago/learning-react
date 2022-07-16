@@ -730,6 +730,7 @@
       ```
 
 - Extracting helper rendering methods
+
   - Use the spread operator with the `rest` parameter:
     - ```js
       const Input = ({ name, label, error, ...rest }) => {
@@ -742,3 +743,52 @@
         );
       };
       ```
+
+## Calling Backend Services
+
+- JSON placeholder
+
+  - [{JSON} Placeholder](https://jsonplaceholder.typicode.com/)
+
+- Http clients
+
+  - `npm i axios`
+  - `cdm` short for `componentDidMount()`
+  - promise: an object that holds the result of an asynchronous operation
+    - resolved (success)
+    - rejected (failure)
+  - Whenever using `await` in a function, you should decorate that function with keyword `async`
+
+- Updating data
+
+  - patch: use for updating one or more properties
+  - put: use for updating all properties
+
+- Optimistic vs pessimistic updates
+
+  - optimistic: call to the server succeeds
+
+    1. Keep a reference to the original state
+    1. Update the UI
+    1. Wrap call to the server in a try-catch block (catch block displays error message and revert changes)
+
+  - pessimistic: call to the server do not succeed (transition can take longer because UI executes only after a successful response from the server)
+
+- Expected and unexpected errors
+
+  - Expected: errors that the API endpoints predict and return (e.g.: 404: not found, 400: bad request &mdash; 4xx are client errors)
+    - Display a specific error message
+  - Unexpected: errors that should not happen under normal circumstances (e.g.: network down, server is down, database is down, bug)
+    - Log them
+    - Display a generic and friendly error message
+
+- Handling unexpected errors globally
+
+  - Axios interceptors for request or response
+
+- Display toast notifications
+
+  - `npm i react-toastify`
+
+- Logging errors
+  - Logging aaS provider: [sentry.io](https://sentry.io/welcome/)
