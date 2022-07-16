@@ -792,3 +792,47 @@
 
 - Logging errors
   - Logging aaS provider: [sentry.io](https://sentry.io/welcome/)
+
+## Authentication and Authorization
+
+- Submitting the registration form
+
+  - `import * as userService from '../services/userService'` imports all functions being exported by `userService.js`. The imported functions can be accessed using `userService`.
+
+- Logging in a user
+
+  - JWT (JSON Web Token) is sent to the client from the server if we provide a valid username and password combination upon logging in (authentication phase)
+    - In the future, whenever the client calls an API endpoint that requires authentication, the client will need to use the JWT
+
+- Storing JWT
+
+  - Store it in the browser object `localStorage`
+    - ```js
+      localStorage.setItem("token", jwt);
+      ```
+
+- Logging in the user upon registration
+
+  - Costumed HTTP header are prepended with `x-`
+  - To enable client access to a costumed header, use `.header("access-control-expose-headers", "x-auth-token")` in the implementation of the round of interest
+
+- JSON Web Tokens (JWT)
+
+  - [jwt.io](https://jwt.io/)
+
+- Displaying the current user in the NavBar
+
+  - `npm i jwt-decode`
+  - `window.location = '/';` causes the full reload of the application
+
+- Calling protected API endpoints
+
+  - `axios.defaults.headers.common["x-auth-token"] = auth.getJwt();`
+
+- Fixing bi-directional dependencies
+
+  - They must not exit
+
+- Extracting protected routes
+
+- Redirecting after login
