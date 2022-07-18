@@ -836,3 +836,123 @@
 - Extracting protected routes
 
 - Redirecting after login
+
+## Deployment
+
+- Environment variables
+
+  - `.env`
+    - Extensions used for setting env. variables for each instance of the application
+      1. `.env.development`
+      1. `.env.test`
+      1. `.env.production`
+
+- Production builds
+
+  - `npm run build`
+    - Creates a folder named `build`
+    - To serve your build:
+      1. `sudo npm i -g serve`
+      1. `serve -s build`
+
+- Getting started with Heroku
+
+  - App is deployed in Heroku
+
+- MongoDB in the cloud
+
+  - MongoDB is deployed in mLab
+
+- Deploying to Heroku
+
+  1. `heroku create`
+  1. `git push heroku master`
+  1. `heroku open`
+
+- Viewing logs
+
+  - `heroku logs`
+
+- Setting environment variables on Heroku
+
+  - The database connection string must be set in a env. variable on the Heroku server:
+    - `heroku config: set vidly_db=mongodb://<db_user>:<db_password>@<server_name>:<port>/<database_name>
+  - Reading the Heroku env. variable in the application
+    - Map the DB application setting to the env. variable in `config/custom-environment-variables.json`
+
+- Preparing the front-end for deployment
+
+  - Create `.env.production` file in `src` folder
+  - Add `REACT_APP_API_URL=<heroku_backend_url>` to `.env.production`
+    - Make sure the `<heroku_backend_url>` ends with `/api`
+  - Use `axios.defaults.baseURL = process.env.REACT_APP_API_URL;` to use the env. variable dynamically, depending on which instance of your application is being run (development, test, or production)
+
+- Deploying the front-end
+  - Use a Heroku buildpack for React (`create-react-app-buildpack`)
+
+## Advanced Topics
+
+- Implementing a higher order component
+
+  - \<component> → function() → <component_with_wrapper>
+
+- Hooks
+
+  - Functions became stateful, just like classes
+  - Why hooks
+    - Classes are a bit difficult
+    - The this keyword
+    - Boilerplate code
+
+- The `useState` hook
+
+  - You cannot call hooks inside:
+    - Loops
+    - Conditions
+    - Nested functions
+
+- The `useEffect` hook
+
+  - `useEffect(func, [<dependency_array_of_states>])` does the job of all lifecycle methods used for class (`componentDidMount()`, `componentDidUpdate()`, and `componentWillUnmount()`)
+    - Use `return` to address what's to be done for `componentWillUnmount()`
+
+- Custom hooks
+
+  - ```js
+    import { useEffect } from "react";
+
+    export default function useDocumentTitle(title) {
+      useEffect(() => {
+        document.title = title;
+
+        return () => {
+          console.log("Clean up");
+        };
+      });
+    }
+    ```
+
+- Context
+
+  - Prop drilling: drilling a hole to pass a prop down to a component in a hierarchical tree
+  - With context you can pass data down a component tree without drilling
+
+- Context in class components
+
+  - Static property: a property that belongs to a class, not an object
+  - Two ways of setting up the static property
+    - Outside class definition:
+      ```js
+      MovieList.contextType = UserContext;
+      ```
+    - Inside class definition:
+      ```js
+      static contextType = UserContext;
+      ```
+
+- Context in function components
+
+  - You don't see the context consumer component in the component tree
+  - Prefer functional components to class components (component tree will be smaller)
+
+- Consuming multiple contexts
